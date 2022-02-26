@@ -10,7 +10,7 @@ namespace Ado.NetAdvAddressBook
     /// <summary>
     /// Created The AdressBookRepository Class To Insert,Update Retrieve The Data From DB(UC1)
     /// </summary>
-    public class AdressBookRepository
+    public class AddressBookRepository
     {
         //Give path for Database Connection(UC1)
         public static string connectionString = @"Data Source=RAJ-VERMA;Initial Catalog=AddressBookDb;Integrated Security=True;";
@@ -51,6 +51,35 @@ namespace Ado.NetAdvAddressBook
                 return ex.Message;
             }
             finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        //Method to modify existing contact from db table using their name(UC4)
+        public static string UpdateDbTableBasedOnName(string fieldName, string fieldValue, string fName)
+        {
+            try
+            {
+                //Open Connection
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    string query = $"Update AddressBook Set {fieldName} = '{fieldValue}' where FirstName = '{fName}'";
+                    //Pass query to TSql
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    int result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                        return "Updated Data Succesfully";
+                    else
+                        return "Unsuccesfull";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally 
             {
                 sqlConnection.Close();
             }

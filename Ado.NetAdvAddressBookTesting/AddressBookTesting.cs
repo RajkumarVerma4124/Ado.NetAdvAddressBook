@@ -24,7 +24,17 @@ namespace Ado.NetAdvAddressBookTesting
             addressBook.EmailId = emailId;
             addressBook.AddressBookName = addrBookName;
             addressBook.ContactType = AddrBookType;
-            var actual = AdressBookRepository.InsertDataIntoDbTable(addressBook);
+            var actual = AddressBookRepository.InsertDataIntoDbTable(addressBook);
+            Assert.AreEqual(expected, actual);
+        }
+
+        //Testing to check the update method is upating the value in db or not using name(UC4)
+        [TestMethod]
+        [DataRow("EmailId", "abc786@gmail.com", "Raj", "Updated Data Succesfully")]
+        [DataRow("EmailId", "abc786", "konkan", "Unsuccesfull")]
+        public void GivenUpdateQueryReturnResult(string fieldName, string fieldValue, string fName, string expected)
+        {
+            var actual = AddressBookRepository.UpdateDbTableBasedOnName(fieldName, fieldValue, fName);
             Assert.AreEqual(expected, actual);
         }
     }
