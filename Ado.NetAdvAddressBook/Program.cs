@@ -22,7 +22,7 @@ namespace Ado.NetAdvAddressBook
             {
                 while (true)
                 {
-                    Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Exit");
+                    Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Exit");
                     Console.Write("Enter a choice from above : ");
                     bool flag = int.TryParse(Console.ReadLine(), out int choice);
                     if (flag)
@@ -41,12 +41,23 @@ namespace Ado.NetAdvAddressBook
                                 string fieldName = Console.ReadLine();
                                 Console.Write("Enter The Field Value To Update : ");
                                 string fieldValue = Console.ReadLine();
-                                Console.Write("Enter Your FirstName : ");
+                                Console.Write("Enter Your FirstName To Update Contact : ");
                                 string fName = Console.ReadLine();
                                 result = AddressBookRepository.UpdateDbTableBasedOnName(fieldName, fieldValue, fName);
                                 Console.WriteLine(result);
                                 break;
                             case 3:
+                                //Calling the delete method to delete contact from db table(UC5)
+                                Console.Write("Enter The FirstName To Delete Contact : ");
+                                string firstName = Console.ReadLine(); 
+                                result = AddressBookRepository.DeleteContactBasedOnName(firstName);
+                                Console.WriteLine(result);
+                                break;
+                            case 4:
+                                //Calling getallcontact method to display contact details(UC5)
+                                AddressBookRepository.GetAllContact();
+                                break;
+                            case 5:
                                 Environment.Exit(0);
                                 break;
                             default:

@@ -37,5 +37,16 @@ namespace Ado.NetAdvAddressBookTesting
             var actual = AddressBookRepository.UpdateDbTableBasedOnName(fieldName, fieldValue, fName);
             Assert.AreEqual(expected, actual);
         }
+
+        //Testing to check the delete method is deleting the value in db or not using name(UC4)
+        [TestMethod]
+        [DataRow("Yash", "Deleted Data Succesfully")]
+        [DataRow("Ankit", "Deleted Data Succesfully")]
+        [DataRow("konkan", "Unsuccesfull")]
+        public void GivenDeleteQueryReturnResult(string fName, string expected)
+        {
+            var actual = AddressBookRepository.DeleteContactBasedOnName(fName);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

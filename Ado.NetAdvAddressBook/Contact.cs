@@ -22,5 +22,12 @@ namespace Ado.NetAdvAddressBook
         public string EmailId { get; set; }
         public string AddressBookName { get; set; }
         public string ContactType { get; set; }
+
+        //Method to override string method(UC5)
+        public override string ToString()
+        {
+            return $"First Name : {FirstName} || Last Name : {LastName} \nAddress : {Address} || City : {City} || State : {State} || ZipCode = {ZipCode}"+
+                $"\nPhone No : {PhoneNumber} \nEmail Id : {EmailId} \nAddressBook Name : {AddressBookName} || AddressBook Type : {ContactType}\n";
+        }
     }
 }

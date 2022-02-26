@@ -16,7 +16,8 @@ namespace Ado.NetAdvAddressBook
         public static string connectionString = @"Data Source=RAJ-VERMA;Initial Catalog=AddressBookDb;Integrated Security=True;";
         //Represents a connection to Sql Server Database(UC1)
         public static SqlConnection sqlConnection = null;
-
+        //Creating the object of contact class
+        public static Contact contact = new Contact();
         //Method to insert data from user to db table(UC3)
         public static string InsertDataIntoDbTable(Contact contact)
         {
@@ -83,6 +84,82 @@ namespace Ado.NetAdvAddressBook
             {
                 sqlConnection.Close();
             }
+        }
+
+        //Method to delete existing contact from db table using their name(UC5)
+        public static string DeleteContactBasedOnName(string fName)
+        {
+            try
+            {
+                //Open Connection
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    string query = $"Delete From AddressBook Where FirstName = '{fName}'";
+                    //Pass query to TSql
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    int result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                        return "Deleted Data Succesfully";
+                    else
+                        return "Unsuccesfull";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        //Method to fetch all contact records(UC5)
+        public static void GetAllContact()
+        {
+            try
+            {
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from AddressBook";
+                    SqlCommand command = new SqlCommand(query, sqlConnection);
+                    sqlConnection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                            PrintContact(reader);
+                    }
+                    else
+                        Console.WriteLine("There is no records in the db table");
+                    Console.ReadLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        //Method to print contact details(UC5)
+        public static void PrintContact(SqlDataReader sqlDataReader)
+        {
+            contact.FirstName = Convert.ToString(sqlDataReader["FirstName"]);
+            contact.LastName = Convert.ToString(sqlDataReader["LastName"]);
+            contact.Address = Convert.ToString(sqlDataReader["Address"]);
+            contact.City = Convert.ToString(sqlDataReader["City"]);
+            contact.State = Convert.ToString(sqlDataReader["StateName"]);
+            contact.ZipCode = Convert.ToInt64(sqlDataReader["ZipCode"]);
+            contact.PhoneNumber = Convert.ToInt64(sqlDataReader["PhoneNum"]);
+            contact.EmailId = Convert.ToString(sqlDataReader["EmailId"]);
+            contact.AddressBookName = Convert.ToString(sqlDataReader["AddressBookName"]);
+            contact.ContactType = Convert.ToString(sqlDataReader["AddressBookType"]);
+            Console.WriteLine(contact);
         }
     }
 }
