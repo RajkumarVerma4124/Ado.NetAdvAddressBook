@@ -23,7 +23,7 @@ namespace Ado.NetAdvAddressBook
                 while (true)
                 {
                     Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Retrive Record By City Or State"+
-                                "\n6: Count By City And State \n7: Retrieve Sorted Person Records \n8: Exit");
+                                "\n6: Count By City And State \n7: Retrieve Sorted Person Records \n8: Count Based on Contact Type \n9: Exit");
                     Console.Write("Enter a choice from above : ");
                     bool flag = int.TryParse(Console.ReadLine(), out int choice);
                     if (flag)
@@ -80,6 +80,11 @@ namespace Ado.NetAdvAddressBook
                                 Console.WriteLine(result);
                                 break;
                             case 8:
+                                //Calling count by contact type method(UC9)
+                                result = AddressBookRepository.GetCountByContactType();
+                                Console.WriteLine(result);
+                                break;
+                            case 9:
                                 Environment.Exit(0);
                                 break;
                             default:

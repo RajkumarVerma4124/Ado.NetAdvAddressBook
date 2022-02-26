@@ -79,5 +79,14 @@ namespace Ado.NetAdvAddressBookTesting
             var actual = AddressBookRepository.GetSortedCityContactByName(city);
             Assert.AreEqual(expected, actual);
         }
+
+        //Testing the count contact by contact type to check if data is found or not(UC7)
+        [TestMethod]
+        [DataRow("Found The Record SuccessFully")]
+        public void GivenCountByTypeQueryReturnResult(string expected)
+        {
+            var actual = AddressBookRepository.GetCountByContactType();
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
