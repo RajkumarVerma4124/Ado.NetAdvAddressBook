@@ -49,43 +49,59 @@ namespace Ado.NetAdvAddressBookTesting
             Assert.AreEqual(expected, actual);
         }
 
-        //Testing the retreive records by city or state method to check if data is found or not(UC6)
+        //Testing the retreive records and er records by city or state method to check if data is found or not(UC6-UC12)
         [TestMethod]
         [DataRow("Mumbai", "Maharashtra", "Found The Record SuccessFully")]
         [DataRow("konkan", "kolaba", "No Record Found")]
         public void GivenRetriveQueryReturnResult(string city, string state, string expected)
         {
-            var actual = AddressBookRepository.RetreivePersonBasedOnCityOrState(city, state);
-            Assert.AreEqual(expected, actual);
+            var actualEmployee = AddressBookRepository.RetreivePersonBasedOnCityOrState(city, state);
+            var actualErEmployee = AddressBookERRepository.RetreiveErContactByCityOrState(city, state);
+            Assert.AreEqual(actualEmployee, expected);
+            Assert.AreEqual(actualErEmployee, expected);
         }
 
-        //Testing the count contact by city and state method to check if data is found or not(UC7)
+        //Testing the count contact and er contact by city and state method to check if data is found or not(UC7-12)
         [TestMethod]
         [DataRow("Found The Record SuccessFully")]
         public void GivenCountQueryReturnResult(string expected)
         {
-            var actual = AddressBookRepository.ContactCountByCityandState();
-            Assert.AreEqual(expected, actual);
+            var actualEmployee = AddressBookRepository.ContactCountByCityandState();
+            var actualErEmployee = AddressBookERRepository.GetErContactCountByCityandState();
+            Assert.AreEqual(actualEmployee, expected);
+            Assert.AreEqual(actualErEmployee, expected);
         }
 
-        //Testing the sort contact by persons name to check if data is found or not(UC8)
+        //Testing the sort contact by persons name and er person to check if data is found or not(UC8-12)
         [TestMethod]
         [DataRow("Mumbai","Found The Record SuccessFully")]
         [DataRow("NaviMumbai","Found The Record SuccessFully")]
-        [DataRow("Noida","Found The Record SuccessFully")]
-        [DataRow("Pondicherry", "No Record Found")]
+        [DataRow("kalamboli", "No Record Found")]
         public void GivenOrderByQueryReturnResult(string city, string expected)
         {
-            var actual = AddressBookRepository.GetSortedCityContactByName(city);
-            Assert.AreEqual(expected, actual);
+            var actualEmployee = AddressBookRepository.GetSortedCityContactByName(city);
+            var actualErEmployee = AddressBookERRepository.GetSortedERContactByNameGivenCity(city);
+            Assert.AreEqual(actualEmployee, expected);
+            Assert.AreEqual(actualErEmployee, expected);
         }
 
-        //Testing the count contact by contact type to check if data is found or not(UC7)
+        //Testing the count contact by contact and er contact type to check if data is found or not(UC9-UC12)
         [TestMethod]
         [DataRow("Found The Record SuccessFully")]
         public void GivenCountByTypeQueryReturnResult(string expected)
         {
-            var actual = AddressBookRepository.GetCountByContactType();
+            var actualEmployee = AddressBookRepository.GetCountByContactType();
+            var actualErEmployee = AddressBookERRepository.GetCountByERContactType();
+            Assert.AreEqual(actualEmployee, expected);
+            Assert.AreEqual(actualErEmployee, expected);
+        }
+
+        //Testing the count contact by er contact type to check if data is found or not(UC10)
+        [TestMethod]
+        [DataRow("Found The Record SuccessFully")]
+        public void GivenCountByABNameQueryReturnResult(string expected)
+        {
+            var actual = AddressBookERRepository.GetCountByERAddrBookName();
             Assert.AreEqual(expected, actual);
         }
     }

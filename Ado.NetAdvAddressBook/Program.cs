@@ -23,7 +23,7 @@ namespace Ado.NetAdvAddressBook
                 while (true)
                 {
                     Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Retrive Record By City Or State"+
-                                "\n6: Count By City And State \n7: Retrieve Sorted Person Records \n8: Count Based on Contact Type \n9: Exit");
+                                "\n6: Count By City And State \n7: Retrieve Sorted Person Records \n8: Count Based on Contact Type \n9: ER AddressBook \n10: Exit");
                     Console.Write("Enter a choice from above : ");
                     bool flag = int.TryParse(Console.ReadLine(), out int choice);
                     if (flag)
@@ -85,6 +85,10 @@ namespace Ado.NetAdvAddressBook
                                 Console.WriteLine(result);
                                 break;
                             case 9:
+                                //Calling the er addressbook method(UC10-13)
+                                AddressBookER.ERAddressBook();
+                                break;
+                            case 10:
                                 Environment.Exit(0);
                                 break;
                             default:

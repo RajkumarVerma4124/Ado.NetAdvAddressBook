@@ -21,6 +21,9 @@ namespace Ado.NetAdvAddressBook
         public long ZipCode { get; set; }
         public string EmailId { get; set; }
         public string AddressBookName { get; set; }
+        public int AddressBookId { get; set; }
+        public int PersonId { get; set; }
+        public int ContactTypeId { get; set; }
         public string ContactType { get; set; }
 
         //Method to override string method(UC5)
