@@ -22,7 +22,8 @@ namespace Ado.NetAdvAddressBook
             {
                 while (true)
                 {
-                    Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Retrive Record By City Or State \n6: Exit");
+                    Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Retrive Record By City Or State"+
+                                "\n6: Count By City And State \n7: Exit");
                     Console.Write("Enter a choice from above : ");
                     bool flag = int.TryParse(Console.ReadLine(), out int choice);
                     if (flag)
@@ -67,6 +68,11 @@ namespace Ado.NetAdvAddressBook
                                 Console.WriteLine(result);
                                 break;
                             case 6:
+                                //Calling contactcount method to get size of the addressbook(UC7)
+                                result = AddressBookRepository.ContactCountByCityandState();
+                                Console.WriteLine(result);
+                                break;
+                            case 7:
                                 Environment.Exit(0);
                                 break;
                             default:

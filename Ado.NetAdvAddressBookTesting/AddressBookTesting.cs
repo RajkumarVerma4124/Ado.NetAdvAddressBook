@@ -38,7 +38,7 @@ namespace Ado.NetAdvAddressBookTesting
             Assert.AreEqual(expected, actual);
         }
 
-        //Testing to check the delete method is deleting the value in db or not using name(UC4)
+        //Testing to check the delete method is deleting the value in db or not using name(UC5)
         [TestMethod]
         [DataRow("Yash", "Deleted Data Succesfully")]
         [DataRow("Ankit", "Deleted Data Succesfully")]
@@ -49,13 +49,22 @@ namespace Ado.NetAdvAddressBookTesting
             Assert.AreEqual(expected, actual);
         }
 
-        //Testing the retreive records by city or state method to check if data is found or not(UC4)
+        //Testing the retreive records by city or state method to check if data is found or not(UC6)
         [TestMethod]
         [DataRow("Mumbai", "Maharashtra", "Found The Record SuccessFully")]
         [DataRow("konkan", "kolaba", "No Record Found")]
         public void GivenRetriveQueryReturnResult(string city, string state, string expected)
         {
             var actual = AddressBookRepository.RetreivePersonBasedOnCityOrState(city, state);
+            Assert.AreEqual(expected, actual);
+        }
+
+        //Testing the count contact by city and state method to check if data is found or not(UC7)
+        [TestMethod]
+        [DataRow("Found The Record SuccessFully")]
+        public void GivenCOuntQueryReturnResult(string expected)
+        {
+            var actual = AddressBookRepository.ContactCountByCityandState();
             Assert.AreEqual(expected, actual);
         }
     }

@@ -150,6 +150,41 @@ namespace Ado.NetAdvAddressBook
             }
         }
 
+        //Method to retreive person by city or state from db(UC7)
+        public static string ContactCountByCityandState()
+        {
+            try
+            {
+                //Open Connection
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    string query = $"Select Count(*),StateName,City From AddressBook Group By StateName,City";
+                    //Passing query to sqlcommand
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    sqlConnection.Open();
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            Console.WriteLine("Count : {0} \tState : {1} \tCity : {2}", sqlDataReader[0], sqlDataReader[1], sqlDataReader[2]);
+                        }
+                        return "Found The Record SuccessFully";
+                    }
+                    else
+                        return "No Record Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
         //Method to fetch all contact records(UC5)
         public static void GetAllContact()
         {
