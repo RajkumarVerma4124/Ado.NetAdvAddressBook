@@ -185,6 +185,41 @@ namespace Ado.NetAdvAddressBook
             }
         }
 
+        //Method to retreive sorted person city records from db using name(UC8)
+        public static string GetSortedCityContactByName(string city)
+        {
+            try
+            {
+                //Open Connection
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    string query = $"Select * From AddressBook Where City = '{city}' Order By FirstName";
+                    //Passing query to sqlcommand
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    sqlConnection.Open();
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            PrintContact(sqlDataReader);
+                        }
+                        return "Found The Record SuccessFully";
+                    }
+                    else
+                        return "No Record Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
         //Method to fetch all contact records(UC5)
         public static void GetAllContact()
         {

@@ -23,7 +23,7 @@ namespace Ado.NetAdvAddressBook
                 while (true)
                 {
                     Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Retrive Record By City Or State"+
-                                "\n6: Count By City And State \n7: Exit");
+                                "\n6: Count By City And State \n7: Retrieve Sorted Person Records \n8: Exit");
                     Console.Write("Enter a choice from above : ");
                     bool flag = int.TryParse(Console.ReadLine(), out int choice);
                     if (flag)
@@ -73,6 +73,13 @@ namespace Ado.NetAdvAddressBook
                                 Console.WriteLine(result);
                                 break;
                             case 7:
+                                //Calling sort contact method to get sorted person name using city(UC8)
+                                Console.Write("Enter The City Name : ");
+                                string cityName = Console.ReadLine();
+                                result = AddressBookRepository.GetSortedCityContactByName(cityName);
+                                Console.WriteLine(result);
+                                break;
+                            case 8:
                                 Environment.Exit(0);
                                 break;
                             default:

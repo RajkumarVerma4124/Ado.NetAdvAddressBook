@@ -62,9 +62,21 @@ namespace Ado.NetAdvAddressBookTesting
         //Testing the count contact by city and state method to check if data is found or not(UC7)
         [TestMethod]
         [DataRow("Found The Record SuccessFully")]
-        public void GivenCOuntQueryReturnResult(string expected)
+        public void GivenCountQueryReturnResult(string expected)
         {
             var actual = AddressBookRepository.ContactCountByCityandState();
+            Assert.AreEqual(expected, actual);
+        }
+
+        //Testing the sort contact by persons name to check if data is found or not(UC8)
+        [TestMethod]
+        [DataRow("Mumbai","Found The Record SuccessFully")]
+        [DataRow("NaviMumbai","Found The Record SuccessFully")]
+        [DataRow("Noida","Found The Record SuccessFully")]
+        [DataRow("Pondicherry", "No Record Found")]
+        public void GivenOrderByQueryReturnResult(string city, string expected)
+        {
+            var actual = AddressBookRepository.GetSortedCityContactByName(city);
             Assert.AreEqual(expected, actual);
         }
     }
