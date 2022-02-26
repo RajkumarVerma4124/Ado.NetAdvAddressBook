@@ -48,5 +48,15 @@ namespace Ado.NetAdvAddressBookTesting
             var actual = AddressBookRepository.DeleteContactBasedOnName(fName);
             Assert.AreEqual(expected, actual);
         }
+
+        //Testing the retreive records by city or state method to check if data is found or not(UC4)
+        [TestMethod]
+        [DataRow("Mumbai", "Maharashtra", "Found The Record SuccessFully")]
+        [DataRow("konkan", "kolaba", "No Record Found")]
+        public void GivenRetriveQueryReturnResult(string city, string state, string expected)
+        {
+            var actual = AddressBookRepository.RetreivePersonBasedOnCityOrState(city, state);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

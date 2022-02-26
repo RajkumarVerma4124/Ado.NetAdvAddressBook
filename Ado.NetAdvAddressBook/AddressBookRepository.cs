@@ -115,6 +115,41 @@ namespace Ado.NetAdvAddressBook
             }
         }
 
+        //Method to retreive person by city or state from db(UC6)
+        public static string RetreivePersonBasedOnCityOrState(string city, string state)
+        {
+            try
+            {
+                //Open Connection
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    string query = $"Select * From AddressBook Where City = '{city}' Or StateName = '{state}'";
+                    //Passing query to sqlcommand
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    sqlConnection.Open();
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            PrintContact(sqlDataReader);
+                        }
+                        return "Found The Record SuccessFully";
+                    }
+                    else
+                        return "No Record Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
         //Method to fetch all contact records(UC5)
         public static void GetAllContact()
         {

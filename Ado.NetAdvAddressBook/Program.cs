@@ -22,7 +22,7 @@ namespace Ado.NetAdvAddressBook
             {
                 while (true)
                 {
-                    Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Exit");
+                    Console.WriteLine("1: Insert Data Into AddressBook \n2: Update Existing Contact \n3: Delete Contact \n4: Display Addressbook Data \n5: Retrive Record By City Or State \n6: Exit");
                     Console.Write("Enter a choice from above : ");
                     bool flag = int.TryParse(Console.ReadLine(), out int choice);
                     if (flag)
@@ -58,6 +58,15 @@ namespace Ado.NetAdvAddressBook
                                 AddressBookRepository.GetAllContact();
                                 break;
                             case 5:
+                                //Calling the retreive records by city or state method(UC6)
+                                Console.Write("Enter The City Name : ");
+                                string city = Console.ReadLine();
+                                Console.Write("Enter The State Name : ");
+                                string state = Console.ReadLine();
+                                result = AddressBookRepository.RetreivePersonBasedOnCityOrState(city, state);
+                                Console.WriteLine(result);
+                                break;
+                            case 6:
                                 Environment.Exit(0);
                                 break;
                             default:
