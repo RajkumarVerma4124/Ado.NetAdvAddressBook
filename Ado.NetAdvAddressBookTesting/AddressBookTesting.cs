@@ -104,5 +104,25 @@ namespace Ado.NetAdvAddressBookTesting
             var actual = AddressBookERRepository.GetCountByERAddrBookName();
             Assert.AreEqual(expected, actual);
         }
+
+        //Testing to check the data is inserted to multiple table or not(UC11)
+        [TestMethod]
+        [DataRow(1,"Yash", "Sarjekar", "Nanded", "Pune", "Maharashtra", 854697, 9658742130, "yashs@gmail.com", "2019-02-02", "Inserted The Data Successfully")]
+        public void InsertIntoMulTableDB(int personTypeId, string fname, string lname, string address, string city, string state, long zipcode, long phoneNum, string emailId, string date, string expected)
+        {
+            Contact contact = new Contact();
+            contact.ContactTypeId = personTypeId;
+            contact.FirstName = fname;
+            contact.LastName = lname;
+            contact.Address = address;
+            contact.City = city;
+            contact.State = state;
+            contact.ZipCode = zipcode;
+            contact.PhoneNumber = phoneNum;
+            contact.EmailId = emailId;
+            contact.DateAdded = Convert.ToDateTime(date);
+            var actual =AddressBookTransaction.InsertDataIntoMulTableUsingTransaction(contact);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

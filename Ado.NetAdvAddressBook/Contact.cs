@@ -25,6 +25,7 @@ namespace Ado.NetAdvAddressBook
         public int PersonId { get; set; }
         public int ContactTypeId { get; set; }
         public string ContactType { get; set; }
+        public DateTime DateAdded { get; set; }
 
         //Method to override string method(UC5)
         public override string ToString()

@@ -41,6 +41,7 @@ namespace Ado.NetAdvAddressBook
                         {
                             PrintContact(sqlDataReader);
                         }
+                        sqlDataReader.Close();
                         return "Found The Record SuccessFully";
                     }
                     else
@@ -74,6 +75,7 @@ namespace Ado.NetAdvAddressBook
                         {
                             Console.WriteLine("Count : {0} \tState : {1} \tCity : {2}", sqlDataReader[0], sqlDataReader[1], sqlDataReader[2]);
                         }
+                        sqlDataReader.Close();
                         return "Found The Record SuccessFully";
                     }
                     else
@@ -109,6 +111,7 @@ namespace Ado.NetAdvAddressBook
                         {
                             PrintContact(sqlDataReader);
                         }
+                        sqlDataReader.Close();
                         return "Found The Record SuccessFully";
                     }
                     else
@@ -142,6 +145,7 @@ namespace Ado.NetAdvAddressBook
                         {
                             Console.WriteLine("ContactCount : {0} \tContactType : {1}", sqlDataReader[0], sqlDataReader[1]);
                         }
+                        sqlDataReader.Close();
                         return "Found The Record SuccessFully";
                     }
                     else
@@ -175,6 +179,7 @@ namespace Ado.NetAdvAddressBook
                         {
                             Console.WriteLine("AddressBookCount : {0} \tAddressBookName : {1}", sqlDataReader[0], sqlDataReader[1]);
                         }
+                        sqlDataReader.Close();
                         return "Found The Record SuccessFully";
                     }
                     else
@@ -207,9 +212,10 @@ namespace Ado.NetAdvAddressBook
             contact.EmailId = Convert.ToString(sqlDataReader["EmailId"]);
             contact.AddressBookName = Convert.ToString(sqlDataReader["AddressBookName"]);
             contact.ContactType = Convert.ToString(sqlDataReader["PersonType"]);
+            contact.DateAdded = (DateTime)sqlDataReader["DateAdded"];
             Console.WriteLine($"AddressBook Id : {contact.AddressBookId} || Contact Type Id : {contact.ContactTypeId} || Person Id : {contact.PersonId} || \nFirst Name : {contact.FirstName} || Last Name : {contact.LastName}"+
                 $"\nAddress : {contact.Address} || City : {contact.City} || State : {contact.State} || ZipCode = {contact.ZipCode}"+
-                $"\nPhone No : {contact.PhoneNumber} \nEmail Id : {contact.EmailId} \nAddressBook Name : {contact.AddressBookName} || AddressBook Type : {contact.ContactType}\n");
+                $"\nPhone No : {contact.PhoneNumber} \nEmail Id : {contact.EmailId} \nAddressBook Name : {contact.AddressBookName} || AddressBook Type : {contact.ContactType} \nDate Added : {contact.DateAdded}\n");
         }
     }
 }
