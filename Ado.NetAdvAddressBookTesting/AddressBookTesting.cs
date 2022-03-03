@@ -143,5 +143,24 @@ namespace Ado.NetAdvAddressBookTesting
             var actual = AddressBookTransaction.AddMulPersonsToABUsingThread(contacts);
             Assert.AreEqual(expected, actual);
         }
+
+        //Testing to retrive mul records using thread(UC14)
+        [TestMethod]
+        [DataRow("EmailId", "abc786@gmail.com", "Raj", "Updated Data Succesfully")]
+        [DataRow("EmailId", "abc786", "konkan", "Unsuccesfull")]
+        public void TestMulUpdateFields(string fieldName, string fieldValue, string fName, string expected)
+        {
+            List<Contact> contacts = new List<Contact>()
+             {
+                 new Contact { ContactTypeId = 3, FirstName = "Jerin", LastName = "Raju", Address = "Airoli", City = "NaviMumbai", State = "Maharashtra", ZipCode = 854697, PhoneNumber = 9678540123, EmailId = "yashs@gmail.com", DateAdded = Convert.ToDateTime("2022-02-02")},
+                 new Contact { ContactTypeId = 3, FirstName = "Abhishek", LastName = "Bhoir", Address = "Nerul", City = "NaviMumbai", State = "Maharashtra", ZipCode = 854697, PhoneNumber = 9658740123, EmailId = "abhi@gmail.com", DateAdded = Convert.ToDateTime("2019-03-02")},
+                 new Contact { ContactTypeId = 3, FirstName = "Mahipal", LastName = "Purohit", Address = "Powai", City = "Mumbai", State = "Maharashtra", ZipCode = 854697, PhoneNumber = 9654780123, EmailId = "mahi@gmail.com", DateAdded = Convert.ToDateTime("2020-04-02")},
+                 new Contact { ContactTypeId = 2, FirstName = "Dibin", LastName = "Dasan", Address = "Powai", City = "Mumbai", State = "Maharashtra", ZipCode = 854697, PhoneNumber = 9658741233, EmailId = "dibin@gmail.com", DateAdded = Convert.ToDateTime("2019-05-02")},
+                 new Contact { ContactTypeId = 2, FirstName = "Rahul", LastName = "Krishna", Address = "Powai", City = "Mumbai", State = "Maharashtra", ZipCode = 854697, PhoneNumber = 9658470123, EmailId = "rahul@gmail.com", DateAdded = Convert.ToDateTime("2021-06-02")},
+                 new Contact { ContactTypeId = 1, FirstName = "Shubham", LastName = "Verma", Address = "Sultanpur", City = "Noida", State = "Delhi", ZipCode = 854697, PhoneNumber = 9658742130, EmailId = "shubham@gmail.com", DateAdded = Convert.ToDateTime("2018-07-02")},
+             };
+            var actual = AddressBookTransaction.AddMulPersonsToABUsingThread(contacts);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

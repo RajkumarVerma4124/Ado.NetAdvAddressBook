@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ado.NetAdvAddressBook
@@ -199,23 +201,33 @@ namespace Ado.NetAdvAddressBook
         //Method to print er contact details(UC5-UC10)
         public static void PrintContact(SqlDataReader sqlDataReader)
         {
-            contact.AddressBookId = Convert.ToInt32(sqlDataReader["AddressBookId"]);
-            contact.ContactTypeId = Convert.ToInt32(sqlDataReader["PersonTypeId"]);
-            contact.PersonId = Convert.ToInt32(sqlDataReader["PersonId"]);
-            contact.FirstName = Convert.ToString(sqlDataReader["FirstName"]);
-            contact.LastName = Convert.ToString(sqlDataReader["LastName"]);
-            contact.Address = Convert.ToString(sqlDataReader["Address"]);
-            contact.City = Convert.ToString(sqlDataReader["City"]);
-            contact.State = Convert.ToString(sqlDataReader["StateName"]);
-            contact.ZipCode = Convert.ToInt64(sqlDataReader["ZipCode"]);
-            contact.PhoneNumber = Convert.ToInt64(sqlDataReader["PhoneNum"]);
-            contact.EmailId = Convert.ToString(sqlDataReader["EmailId"]);
-            contact.AddressBookName = Convert.ToString(sqlDataReader["AddressBookName"]);
-            contact.ContactType = Convert.ToString(sqlDataReader["PersonType"]);
-            contact.DateAdded = (DateTime)sqlDataReader["DateAdded"];
-            Console.WriteLine($"AddressBook Id : {contact.AddressBookId} || Contact Type Id : {contact.ContactTypeId} || Person Id : {contact.PersonId} || \nFirst Name : {contact.FirstName} || Last Name : {contact.LastName}"+
-                $"\nAddress : {contact.Address} || City : {contact.City} || State : {contact.State} || ZipCode = {contact.ZipCode}"+
-                $"\nPhone No : {contact.PhoneNumber} \nEmail Id : {contact.EmailId} \nAddressBook Name : {contact.AddressBookName} || AddressBook Type : {contact.ContactType} \nDate Added : {contact.DateAdded}\n");
+            Stopwatch stopWatch = new Stopwatch();
+            Task thread = Task.Run(() =>
+            {
+                stopWatch.Start();
+                Thread.Sleep(1000);
+                contact.AddressBookId = Convert.ToInt32(sqlDataReader["AddressBookId"]);
+                contact.ContactTypeId = Convert.ToInt32(sqlDataReader["PersonTypeId"]);
+                contact.PersonId = Convert.ToInt32(sqlDataReader["PersonId"]);
+                contact.FirstName = Convert.ToString(sqlDataReader["FirstName"]);
+                contact.LastName = Convert.ToString(sqlDataReader["LastName"]);
+                contact.Address = Convert.ToString(sqlDataReader["Address"]);
+                contact.City = Convert.ToString(sqlDataReader["City"]);
+                contact.State = Convert.ToString(sqlDataReader["StateName"]);
+                contact.ZipCode = Convert.ToInt64(sqlDataReader["ZipCode"]);
+                contact.PhoneNumber = Convert.ToInt64(sqlDataReader["PhoneNum"]);
+                contact.EmailId = Convert.ToString(sqlDataReader["EmailId"]);
+                contact.AddressBookName = Convert.ToString(sqlDataReader["AddressBookName"]);
+                contact.ContactType = Convert.ToString(sqlDataReader["PersonType"]);
+                contact.DateAdded = (DateTime)sqlDataReader["DateAdded"];
+                Console.WriteLine($"AddressBook Id : {contact.AddressBookId} || Contact Type Id : {contact.ContactTypeId} || Person Id : {contact.PersonId} || \nFirst Name : {contact.FirstName} || Last Name : {contact.LastName}"+
+                    $"\nAddress : {contact.Address} || City : {contact.City} || State : {contact.State} || ZipCode = {contact.ZipCode}"+
+                    $"\nPhone No : {contact.PhoneNumber} \nEmail Id : {contact.EmailId} \nAddressBook Name : {contact.AddressBookName} || AddressBook Type : {contact.ContactType} \nDate Added : {contact.DateAdded}\n");
+                stopWatch.Stop();
+                double elapsedTime = Math.Round((double)stopWatch.ElapsedMilliseconds, 2);
+                Console.WriteLine($"Duration For Retrieve Data With Thread : {elapsedTime} milliseconds");
+            });
+            thread.Wait();
         }
     }
 }

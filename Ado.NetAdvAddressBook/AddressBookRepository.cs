@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ado.NetAdvAddressBook
@@ -289,17 +291,27 @@ namespace Ado.NetAdvAddressBook
         //Method to print contact details(UC5)
         public static void PrintContact(SqlDataReader sqlDataReader)
         {
-            contact.FirstName = Convert.ToString(sqlDataReader["FirstName"]);
-            contact.LastName = Convert.ToString(sqlDataReader["LastName"]);
-            contact.Address = Convert.ToString(sqlDataReader["Address"]);
-            contact.City = Convert.ToString(sqlDataReader["City"]);
-            contact.State = Convert.ToString(sqlDataReader["StateName"]);
-            contact.ZipCode = Convert.ToInt64(sqlDataReader["ZipCode"]);
-            contact.PhoneNumber = Convert.ToInt64(sqlDataReader["PhoneNum"]);
-            contact.EmailId = Convert.ToString(sqlDataReader["EmailId"]);
-            contact.AddressBookName = Convert.ToString(sqlDataReader["AddressBookName"]);
-            contact.ContactType = Convert.ToString(sqlDataReader["AddressBookType"]);
-            Console.WriteLine(contact);
+            Stopwatch stopWatch = new Stopwatch();
+            Task thread = Task.Run(() =>
+            {
+                stopWatch.Start();
+                Thread.Sleep(1000);
+                contact.FirstName = Convert.ToString(sqlDataReader["FirstName"]);
+                contact.LastName = Convert.ToString(sqlDataReader["LastName"]);
+                contact.Address = Convert.ToString(sqlDataReader["Address"]);
+                contact.City = Convert.ToString(sqlDataReader["City"]);
+                contact.State = Convert.ToString(sqlDataReader["StateName"]);
+                contact.ZipCode = Convert.ToInt64(sqlDataReader["ZipCode"]);
+                contact.PhoneNumber = Convert.ToInt64(sqlDataReader["PhoneNum"]);
+                contact.EmailId = Convert.ToString(sqlDataReader["EmailId"]);
+                contact.AddressBookName = Convert.ToString(sqlDataReader["AddressBookName"]);
+                contact.ContactType = Convert.ToString(sqlDataReader["AddressBookType"]);
+                Console.WriteLine(contact);
+                stopWatch.Stop();
+                double elapsedTime = Math.Round((double)stopWatch.ElapsedMilliseconds, 2);
+                Console.WriteLine($"Duration For Retrieve Data With Thread : {elapsedTime} milliseconds");
+            });
+            thread.Wait();
         }
     }
 }
