@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace Ado.NetAdvAddressBook
         public static string connectionString = @"Data Source=RAJ-VERMA;Initial Catalog=AddressBookDb;Integrated Security=True;";
         //Represents a connection to Sql Server Database(UC11)
         public static SqlConnection sqlConnection = null;
+        //Creating object for lock
+        private static readonly object addProcess = new object();
 
         //Method to add a column in the addressbook table(UC11)
         public static string AlterTableAddDateAddedColumn()
@@ -244,6 +247,46 @@ namespace Ado.NetAdvAddressBook
                     }
                     return default;
                 }
+            }
+        }
+
+        //Method to add mul persons into address book db table using thread(UC12)
+        public static string AddMulPersonsToABUsingThread(List<Contact> contacts)
+        {
+            //object for stopwatch
+            Stopwatch stopWatch = new Stopwatch();
+            Stopwatch stopMainWatch = new Stopwatch();
+            try
+            {
+                stopMainWatch.Start();
+                contacts.ForEach(contact =>
+                {
+                    Task thread = Task.Run(() =>
+                    {
+                        //Using lock for synchronization
+                        lock (addProcess)
+                        {
+                            //start the stopwatch
+                            stopWatch.Start();
+                            Console.WriteLine("Employee Being Added : " + contact.FirstName);
+                            InsertDataIntoMulTableUsingTransaction(contact);
+                            Console.WriteLine("Employee Added Into Db : " + contact.FirstName);
+                            //stop stopwatch
+                            stopWatch.Stop();
+                            double elapsedTime = Math.Round((double)stopWatch.ElapsedMilliseconds, 2);
+                            Console.WriteLine($"Duration With Thread For {contact.FirstName} : {elapsedTime} milliseconds");
+                        }
+                    });
+                    thread.Wait();
+                });
+                stopMainWatch.Stop();
+                double elapsedExecTime = Math.Round((double)stopMainWatch.ElapsedMilliseconds, 2);
+                Console.WriteLine($"Duration With Thread Execution Time Is : {elapsedExecTime} milliseconds");
+                return $"Successfull";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
     }
