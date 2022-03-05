@@ -134,7 +134,7 @@ namespace Ado.NetAdvAddressBook
                     {
                         while (sqlDataReader.Read())
                         {
-                            PrintContact(sqlDataReader);
+                            PrintContactUsingThread(sqlDataReader);
                         }
                         return "Found The Record SuccessFully";
                     }
@@ -294,8 +294,8 @@ namespace Ado.NetAdvAddressBook
             Stopwatch stopWatch = new Stopwatch();
             Task thread = Task.Run(() =>
             {
-                stopWatch.Start();
                 Thread.Sleep(1000);
+                stopWatch.Start();
                 contact.FirstName = Convert.ToString(sqlDataReader["FirstName"]);
                 contact.LastName = Convert.ToString(sqlDataReader["LastName"]);
                 contact.Address = Convert.ToString(sqlDataReader["Address"]);
@@ -305,13 +305,22 @@ namespace Ado.NetAdvAddressBook
                 contact.PhoneNumber = Convert.ToInt64(sqlDataReader["PhoneNum"]);
                 contact.EmailId = Convert.ToString(sqlDataReader["EmailId"]);
                 contact.AddressBookName = Convert.ToString(sqlDataReader["AddressBookName"]);
-                contact.ContactType = Convert.ToString(sqlDataReader["AddressBookType"]);
+                contact.ContactType = Convert.ToString(sqlDataReader["AddressBookType"]);         
                 Console.WriteLine(contact);
                 stopWatch.Stop();
                 double elapsedTime = Math.Round((double)stopWatch.ElapsedMilliseconds, 2);
                 Console.WriteLine($"Duration For Retrieve Data With Thread : {elapsedTime} milliseconds");
             });
             thread.Wait();
+        }
+
+        public static void PrintContactUsingThread(SqlDataReader sqlDataReader)
+        {
+            Thread thread = new Thread(() =>
+            {
+                PrintContact(sqlDataReader);
+            });
+            thread.Start();
         }
     }
 }
